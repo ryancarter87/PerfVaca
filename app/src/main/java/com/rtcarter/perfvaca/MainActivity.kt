@@ -1,5 +1,6 @@
 package com.rtcarter.perfvaca
 
+import android.app.Activity
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -7,6 +8,13 @@ import android.widget.DatePicker
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import android.content.Intent
+import kotlinx.android.synthetic.main.activity_scheduled.*
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStreamReader
+import java.io.OutputStreamWriter
+
+var daysCount = 20
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val preferences = getSharedPreferences ("data", Context.MODE_PRIVATE)
+       // val preferences = getSharedPreferences ("data", Context.MODE_PRIVATE)
 
 
         dateText.text = "${datePicker.month+1}/${datePicker.dayOfMonth}/${datePicker.year}"
@@ -29,10 +37,38 @@ class MainActivity : AppCompatActivity() {
                 })
 
         scheduleBtn.setOnClickListener {
-            val editor = preferences.edit()
-            editor.putString("scheduled", dateText.text.toString())
-            editor.commit()
+            // val editor = preferences.edit()
+            // editor.putString("scheduled", dateText.text.toString())
+            // editor.commit()
+            // successText.text = "NEW VACATION DAY SCHEDULED"
+            var daysString = ""
+            if(fileList().contains("days.txt")) {
+                try {
+                    val file = InputStreamReader(openFileInput("days.txt"))
+                    val br = BufferedReader(file)
+                    var line = br.readLine()
+                    val all = StringBuilder()
+                    while (line != null) {
+                        all.append(line + "\n")
+                        line = br.readLine()
+                    }
+                    br.close()
+                    file.close()
+                    daysString = "$all ${dateText.text}"
+                }
+                catch (e: IOException) {
+                }
+            }
+            try {
+                val file = OutputStreamWriter(openFileOutput("days.txt", Activity.MODE_PRIVATE))
+
+                file.write (daysString)
+                file.close ()
+            } catch (e : IOException) {
+            }
+
             successText.text = "NEW VACATION DAY SCHEDULED"
+            daysCount -= 1
         }
 
         leftBtn.setOnClickListener {
