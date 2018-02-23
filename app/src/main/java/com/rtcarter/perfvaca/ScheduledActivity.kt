@@ -12,6 +12,7 @@ import java.io.InputStreamReader
 import java.io.OutputStreamWriter
 import android.view.ViewGroup
 import android.widget.RadioButton
+import android.widget.Toast
 
 
 class ScheduledActivity : AppCompatActivity() {
@@ -41,6 +42,9 @@ class ScheduledActivity : AppCompatActivity() {
                 br.close()
                 file.close()
                 schedList = all.split("\n").map { it.trim() }
+
+                // Possibly a much better way to do this, but I convert schedList to a mutable
+                // list here so the user can remove values using removeBtn.
             }
             catch (e: IOException) {
             }
@@ -63,12 +67,30 @@ class ScheduledActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+
+        // NOT WORKING! ******************************************************************************
+
+        // Maybe add the inputreader for the text file after .remove()? I think the value is
+        // being removed from the array but the view isn't being updated. Also might be an issue
+        // with the format of ${selectedRadioButton.text}\n, that might not be how the values are stored
+        // in the list.
+        removeBtn.setOnClickListener {
+            val selectedId = days_radio_group.getCheckedRadioButtonId()
+            val selectedRadioButton = findViewById<RadioButton>(selectedId)
+            if (schedList.contains(selectedRadioButton.text)) {
+                schedList.toMutableList().remove("${selectedRadioButton.text}\n")
+            } else {
+                Toast.makeText(this, "Error: Couldn't find date in list.", Toast.LENGTH_LONG).show()
+            }
+        }
+
         clearBtn.setOnClickListener {
             try {
                 val file = OutputStreamWriter(openFileOutput("days.txt", Activity.MODE_PRIVATE))
 
                 file.write ("")
                 file.close ()
+                Toast.makeText(this, "Successfully cleared all vacation days.", Toast.LENGTH_LONG).show()
             } catch (e : IOException) {
             }
         }

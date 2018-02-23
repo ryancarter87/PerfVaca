@@ -7,6 +7,7 @@ import android.widget.DatePicker
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import android.content.Intent
+import android.widget.Toast
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -32,9 +33,12 @@ class MainActivity : AppCompatActivity() {
 
         datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
                 DatePicker.OnDateChangedListener { datePicker, year, month, day ->
-                    dateText.text = "${month+1}/${day}/${year} "
+                    dateText.text = "${month+1}/${day}/${year}"
                 })
 
+        // User can only schedule 20 or less days. If 20 is reached, display a Toast notifying user.
+        // Otherwise, when button is clicked, add the date in the dateText TextView to the text file
+        // and append it to daysString.
         scheduleBtn.setOnClickListener {
             if (fileList().contains("days.txt")) {
                 try {
@@ -50,10 +54,10 @@ class MainActivity : AppCompatActivity() {
                     file.close()
                     daysList = all.split("\n").map { it.trim() }
                     if (daysList.size >= 20) {
-
-                        // NEED TOAST HERE SAYING LIMIT OF SCHEDULED DAYS REACHED ****************
+                        Toast.makeText(this, "You've already scheduled 20 days. Remove one to schedule another.", Toast.LENGTH_LONG).show()
                         daysString = "$all"
                     } else {
+                        Toast.makeText(this, "Date successfully scheduled as vacation.", Toast.LENGTH_LONG).show()
                         daysString = "$all ${dateText.text}"
                     }
                 }
@@ -69,8 +73,6 @@ class MainActivity : AppCompatActivity() {
             }
             catch (e : IOException) {
             }
-
-            // NEED TOAST HERE SAYING DATE SUCCESFFULLY ADDED ************************************
 
             daysCount -= 1
         }
