@@ -4,12 +4,15 @@ import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import kotlinx.android.synthetic.main.activity_scheduled.*
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
-import java.util.*
+import android.view.ViewGroup
+import android.widget.RadioButton
+
 
 class ScheduledActivity : AppCompatActivity() {
 
@@ -17,9 +20,14 @@ class ScheduledActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scheduled)
 
+        // Assign the RadioGroup view to this variable in order to iterate through and add
+        // radio buttons later
+        val radiogroup = findViewById<View>(R.id.days_radio_group) as ViewGroup
+
         // List of strings to store lines from text file
         var schedList = listOf("")
 
+        // Read text file, add each value to schedList list
         if(fileList().contains("days.txt")) {
             try {
                 val file = InputStreamReader(openFileInput("days.txt"))
@@ -38,11 +46,14 @@ class ScheduledActivity : AppCompatActivity() {
             }
         }
 
-        radio5.text = schedList[0]
-        radio4.text = schedList[1]
-        radio3.text = schedList[2]
-        radio2.text = schedList[3]
-        radio1.text = schedList[4]
+        // Iterate through values in schedList to add radio buttons for each
+        for (i in 0..(schedList.size-1)) {
+            val button = RadioButton(this)
+            button.setId(i)
+            button.setText(schedList[i])
+            radiogroup.addView(button)
+        }
+
 
         daysRemaining.text = daysCount.toString()
 
@@ -61,5 +72,6 @@ class ScheduledActivity : AppCompatActivity() {
             } catch (e : IOException) {
             }
         }
+
     }
 }

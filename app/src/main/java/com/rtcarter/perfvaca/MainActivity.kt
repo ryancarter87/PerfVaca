@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
                     daysList = all.split("\n").map { it.trim() }
                     if (daysList.size >= 20) {
 
-                        // NEED TOAST HERE SAYING LIMIT OF SCHEDULED DAYS REACHED **********************************************************************************
+                        // NEED TOAST HERE SAYING LIMIT OF SCHEDULED DAYS REACHED ****************
                         daysString = "$all"
                     } else {
                         daysString = "$all ${dateText.text}"
@@ -66,10 +66,11 @@ class MainActivity : AppCompatActivity() {
 
                 file.write (daysString)
                 file.close ()
-            } catch (e : IOException) {
+            }
+            catch (e : IOException) {
             }
 
-            // NEED TOAST HERE SAYING DATE SUCCESFFULLY ADDED ******************************************************************************************
+            // NEED TOAST HERE SAYING DATE SUCCESFFULLY ADDED ************************************
 
             daysCount -= 1
         }
