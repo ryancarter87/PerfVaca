@@ -1,19 +1,18 @@
 package com.rtcarter.perfvaca
 
 import android.app.Activity
-import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.DatePicker
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import android.content.Intent
-import kotlinx.android.synthetic.main.activity_scheduled.*
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
 
+// Global variable to hold number of unscheduled days remaining
 var daysCount = 20
 
 class MainActivity : AppCompatActivity() {
@@ -22,9 +21,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-       // val preferences = getSharedPreferences ("data", Context.MODE_PRIVATE)
+       // Using daysList here to convert text file to list of strings and then check its size in the write block
+        var daysList = listOf("")
 
-
+        var daysString = ""
         dateText.text = "${datePicker.month+1}/${datePicker.dayOfMonth}/${datePicker.year}"
 
         val calendar = Calendar.getInstance()
@@ -33,16 +33,10 @@ class MainActivity : AppCompatActivity() {
         datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
                 DatePicker.OnDateChangedListener { datePicker, year, month, day ->
                     dateText.text = "${month+1}/${day}/${year} "
-                    successText.text = ""
                 })
 
         scheduleBtn.setOnClickListener {
-            // val editor = preferences.edit()
-            // editor.putString("scheduled", dateText.text.toString())
-            // editor.commit()
-            // successText.text = "NEW VACATION DAY SCHEDULED"
-            var daysString = ""
-            if(fileList().contains("days.txt")) {
+            if (fileList().contains("days.txt")) {
                 try {
                     val file = InputStreamReader(openFileInput("days.txt"))
                     val br = BufferedReader(file)
@@ -54,11 +48,19 @@ class MainActivity : AppCompatActivity() {
                     }
                     br.close()
                     file.close()
-                    daysString = "$all ${dateText.text}"
+                    daysList = all.split("\n").map { it.trim() }
+                    if (daysList.size >= 20) {
+
+                        // NEED TOAST HERE SAYING LIMIT OF SCHEDULED DAYS REACHED **********************************************************************************
+                        daysString = "$all"
+                    } else {
+                        daysString = "$all ${dateText.text}"
+                    }
                 }
                 catch (e: IOException) {
                 }
             }
+
             try {
                 val file = OutputStreamWriter(openFileOutput("days.txt", Activity.MODE_PRIVATE))
 
@@ -67,7 +69,8 @@ class MainActivity : AppCompatActivity() {
             } catch (e : IOException) {
             }
 
-            successText.text = "NEW VACATION DAY SCHEDULED"
+            // NEED TOAST HERE SAYING DATE SUCCESFFULLY ADDED ******************************************************************************************
+
             daysCount -= 1
         }
 
