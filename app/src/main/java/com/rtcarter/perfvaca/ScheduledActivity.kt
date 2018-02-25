@@ -13,6 +13,8 @@ import java.io.OutputStreamWriter
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.Toast
+import com.rtcarter.perfvaca.R.id.all
+import java.time.LocalDateTime
 
 
 class ScheduledActivity : AppCompatActivity() {
@@ -20,7 +22,6 @@ class ScheduledActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scheduled)
-
         // Assign the RadioGroup view to this variable in order to iterate through and add
         // radio buttons later
         val radiogroup = findViewById<View>(R.id.days_radio_group) as ViewGroup
@@ -34,29 +35,13 @@ class ScheduledActivity : AppCompatActivity() {
         // removing an element with the removeBtn
         var schedString = ""
 
-        // Read text file, add each value to schedList list
-        // Then copy schedList to the mutable list schedMut
-        if(fileList().contains("days.txt")) {
-            try {
-                val file = InputStreamReader(openFileInput("days.txt"))
-                val br = BufferedReader(file)
-                var line = br.readLine()
-                val all = StringBuilder()
-                while (line != null) {
-                    all.append(line + "\n")
-                    line = br.readLine()
-                }
-                br.close()
-                file.close()
-                schedList = all.split("\n").map { it.trim() }
-                // Copy schedList to a mutable list and remove the last element because it is a blank
-                // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!LOOK FOR A BETTER WAY TO DO ALL OF THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                schedMut = schedList.toMutableList()
-                schedMut.removeAt((schedList.size-1))
-            }
-            catch (e: IOException) {
-            }
-       }
+        // IF FUN READ DOESN'T WORK PASTE CODE BLOCK BACK HERE
+
+        // Call read function to store values from text file in schedList list.
+        // Then split the values into seperate elements at newline
+        schedList = read("days.txt").split("\n").map { it.trim() }
+        schedMut = schedList.toMutableList()
+        schedMut.removeAt((schedList.size-1))
 
         // Iterate through values in schedList to add radio buttons for each
         for (i in 0..(schedMut.size-1)) {
@@ -66,58 +51,84 @@ class ScheduledActivity : AppCompatActivity() {
             radiogroup.addView(button)
         }
 
-
-        daysRemaining.text = daysCount.toString()
-
-
         rightBtn.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
 
-
         removeBtn.setOnClickListener {
             val selectedId = days_radio_group.getCheckedRadioButtonId()
             val selectedRadioButton = findViewById<RadioButton>(selectedId)
-            if (schedMut.contains(schedMut[(selectedRadioButton.id + 1)])) {
-                // Remove the element at the specified location and remove the radio button
+            if (schedMut.contains(schedMut[selectedRadioButton.id])) {
+                // Remove the element at the specified location and remove the radio buttons
                 schedMut.removeAt(selectedRadioButton.id)
-                days_radio_group.removeView(selectedRadioButton)
+                radiogroup.removeAllViews()
+                // Recreate radio buttons with new size
+                for (i in 0..(schedMut.size-1)) {
+                    val button = RadioButton(this)
+                    button.setId(i)
+                    button.setText(schedMut[i])
+                    radiogroup.addView(button)
+                }
 
                 // Iterate through schedMut and copy the values to schedString so they can be written
                 // to file
+                schedString = ""
                 for (i in schedMut) {
                     schedString += i + "\n"
                 }
 
-                 try {
-                    val file = OutputStreamWriter(openFileOutput("days.txt", Activity.MODE_PRIVATE))
-
-                    file.write (schedString)
-                    file.close ()
-
-                    Toast.makeText(this, "Successfully removed date from the list.", Toast.LENGTH_LONG).show()
-                }
-                 catch (e : IOException) {
-                }
+                // IF WRITE FUNCTION DOESN'T WORK, PASTE CODE BLOCK HERE
+                write("days.txt", schedString)
             } else {
                 Toast.makeText(this, "Error: Couldn't find date in list.", Toast.LENGTH_LONG).show()
             }
         }
 
-
         // Clear the file on click
         // !!!!!!!!!!!!!!!!!!!!NEED TO ADD A CONFIRMATION BUTTON IN CASE THE USER ACCIDENTALLY PRESSES THIS!!!!!!!!!!!!!!!!!!!!!!!!
         clearBtn.setOnClickListener {
-            try {
-                val file = OutputStreamWriter(openFileOutput("days.txt", Activity.MODE_PRIVATE))
+            write("days.txt", "")
 
-                file.write ("")
-                file.close ()
-                Toast.makeText(this, "Successfully cleared all vacation days.", Toast.LENGTH_LONG).show()
-            } catch (e : IOException) {
+            Toast.makeText(this, "ALL SCHEDULED DAYS REMOVED!", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    // Function takes a String for the name of the file to read, and then returns all lines
+    // in file appended with \n as StringBuilder
+    fun read(txt: String): StringBuilder {
+
+        val all = StringBuilder()
+
+        if(fileList().contains(txt)) {
+            try {
+                val file = InputStreamReader(openFileInput(txt))
+                val br = BufferedReader(file)
+                var line = br.readLine()
+               // val all = StringBuilder()
+                while (line != null) {
+                    all.append(line + "\n")
+                    line = br.readLine()
+                }
+                br.close()
+                file.close()
+            }
+            catch (e: IOException) {
             }
         }
 
+        return all
+    }
+
+    // Function takes a text file name as String and the string to write as String
+    // Then writes the string to the file
+    fun write(txt: String, str: String) {
+        try {
+            val file = OutputStreamWriter(openFileOutput(txt, Activity.MODE_PRIVATE))
+
+            file.write(str)
+            file.close()
+        } catch (e : IOException) {
+        }
     }
 }
