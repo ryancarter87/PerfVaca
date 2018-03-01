@@ -4,7 +4,12 @@ import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.system.Os.read
 import android.view.View
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.io.*
+import java.util.*
 import kotlinx.android.synthetic.main.activity_scheduled.*
 import java.io.BufferedReader
 import java.io.IOException
@@ -12,22 +17,63 @@ import java.io.InputStreamReader
 import java.io.OutputStreamWriter
 import android.view.ViewGroup
 import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.TextView
 import android.widget.Toast
 import com.rtcarter.perfvaca.R.id.all
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 
 
 class ScheduledActivity : AppCompatActivity() {
 
+    val myFormat = "MM/dd/yyyy"
+    val sdf = SimpleDateFormat(myFormat, Locale.US)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scheduled)
+
+        val gson = Gson()
+
+        // Variable to hold the scrollView
+        val radiogroup = findViewById<View>(R.id.radioGroup) as ViewGroup
+
+        // Read the json file into peopleList. Same as MainActivity. FIND A BETTER WAY TO DO THIS OTHER THAN INITIALIZING WITH DUMMY VARIABLES
+        val person = PeopleDates()
+        var peopleList: List<PeopleDates> = listOf(person)
+        if (fileList().contains("people.json")) {
+            peopleList = (gson.fromJson(read("person.json"), object : TypeToken<List<PeopleDates>>() {}.type))
+        }
+
+        // Iterate through peopleList, for each object create a new textView listing the "name" of object,
+        // then create a radiogroup with radiobuttons for each of the "dates" in object
+        for (i in peopleList) {
+            val button = RadioButton(this)
+            val text = TextView(this)
+            text.setText(i.name)
+            radiogroup.addView(text)
+
+            for (x in i.dates) {
+                button.setText(sdf.format(x))
+                radiogroup.addView(button)
+            }
+        }
+
+
+
+
+
+        //*********************************************OLD FORMAT:************************************************************************
+
+
+        /*
         // Assign the RadioGroup view to this variable in order to iterate through and add
         // radio buttons later
         val radiogroup = findViewById<View>(R.id.days_radio_group) as ViewGroup
 
         // List of strings to store lines from text file
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!LOOK FOR A BETTER WAY TO DO THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!LOOK FOR A BETTER WAY TO DO THIS!
         // Also create a mutable list to copy schedList to so that it can be edited
         var schedList = listOf("")
         var schedMut = mutableListOf("")
@@ -96,28 +142,31 @@ class ScheduledActivity : AppCompatActivity() {
 
     // Function takes a String for the name of the file to read, and then returns all lines
     // in file appended with \n as StringBuilder
-    fun read(txt: String): StringBuilder {
+    */
+    }
+
+    fun read(txt: String): String {
 
         val all = StringBuilder()
 
-        if(fileList().contains(txt)) {
+        if (fileList().contains(txt)) {
             try {
                 val file = InputStreamReader(openFileInput(txt))
                 val br = BufferedReader(file)
                 var line = br.readLine()
-               // val all = StringBuilder()
+                // val all = StringBuilder()
                 while (line != null) {
                     all.append(line + "\n")
                     line = br.readLine()
                 }
                 br.close()
                 file.close()
-            }
-            catch (e: IOException) {
+            } catch (e: IOException) {
             }
         }
 
-        return all
+        var json: String = all.toString()
+        return json
     }
 
     // Function takes a text file name as String and the string to write as String
@@ -128,7 +177,7 @@ class ScheduledActivity : AppCompatActivity() {
 
             file.write(str)
             file.close()
-        } catch (e : IOException) {
+        } catch (e: IOException) {
         }
     }
 }

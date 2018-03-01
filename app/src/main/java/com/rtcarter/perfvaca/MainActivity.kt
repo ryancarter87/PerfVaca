@@ -16,13 +16,6 @@ import java.text.SimpleDateFormat
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.*
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import android.R.attr.path
-import android.content.Context
-import android.os.Environment
-import android.os.Environment.DIRECTORY_MOVIES
-import android.os.Environment.getExternalStoragePublicDirectory
 
 
 class MainActivity : AppCompatActivity() {

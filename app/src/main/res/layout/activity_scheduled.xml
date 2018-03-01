@@ -35,10 +35,9 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2">
 
         <RadioGroup
-            android:id="@+id/days_radio_group"
+            android:id="@+id/radioGroup"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"></RadioGroup>
+            android:layout_height="wrap_content" />
     </ScrollView>
 
     <TextView
