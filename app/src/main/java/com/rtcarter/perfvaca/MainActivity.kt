@@ -130,7 +130,6 @@ class MainActivity : AppCompatActivity() {
                 val file = InputStreamReader(openFileInput(txt))
                 val br = BufferedReader(file)
                 var line = br.readLine()
-                // val all = StringBuilder()
                 while (line != null) {
                     all.append(line + "\n")
                     line = br.readLine()
