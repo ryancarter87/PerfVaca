@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        leftBtn.setOnClickListener {
+        schedBtn.setOnClickListener {
             val intent = Intent(this, ScheduledActivity::class.java)
             startActivity(intent)
         }

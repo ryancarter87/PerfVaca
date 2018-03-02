@@ -4,19 +4,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context="com.rtcarter.perfvaca.ScheduledActivity">
+
+    <Button
+        android:id="@+id/schedBtn"
+        style="@android:style/Widget.Material.Light.Button.Small"
+        android:layout_width="46dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="264dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/borders"
+        android:fontFamily="@font/rubik_bold"
+        android:text="SCHEDULE"
+        android:textColor="@android:color/background_light"
+        android:textSize="8sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/mainBtn"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="52dp"
         android:fontFamily="sans-serif"
         android:text="VACATION DAYS SCHEDULED"
+        android:textColor="@android:color/background_light"
         android:textSize="26sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.111"
+        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,15 +43,15 @@
         android:id="@+id/days_scroll_view"
         android:layout_width="288dp"
         android:layout_height="204dp"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginTop="72dp"
         android:fillViewport="true"
         android:scrollbarStyle="insideOverlay"
         android:scrollbars="none"
-        app:layout_constraintBottom_toTopOf="@+id/rightBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.034"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintHorizontal_bias="0.181"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
 
         <RadioGroup
             android:id="@+id/radioGroup"
@@ -42,36 +61,27 @@
     </ScrollView>
 
     <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
-        android:text="UNSCHEDULED DAYS REMAINING:"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
         android:id="@+id/daysRemaining"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView4" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
-        android:id="@+id/rightBtn"
+        android:id="@+id/mainBtn"
         style="@android:style/Widget.Material.Light.Button.Small"
-        android:layout_width="52dp"
-        android:layout_height="41dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="336dp"
-        android:text="Sched."
+        android:layout_width="46dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/borders"
+        android:fontFamily="@font/rubik_bold"
+        android:text="VIEW DATES"
+        android:textColor="@android:color/background_light"
         android:textSize="8sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.constraint.Guideline
@@ -83,28 +93,33 @@
 
     <Button
         android:id="@+id/clearBtn"
-        android:layout_width="127dp"
-        android:layout_height="51dp"
-        android:layout_marginBottom="48dp"
+        android:layout_width="76dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:background="@android:color/holo_red_dark"
         android:text="CLEAR SCHEDULE"
         android:textColor="@android:color/background_light"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.939"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/removeBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="209dp"
+        android:layout_height="47dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorPrimaryDark"
+        android:fontFamily="@font/work_sans"
         android:text="Remove Selected Date"
+        android:textColor="@android:color/background_light"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.273"
+        app:layout_constraintHorizontal_bias="0.162"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/days_scroll_view" />
 
@@ -112,12 +127,13 @@
         android:id="@+id/spinnerView"
         android:layout_width="196dp"
         android:layout_height="25dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:entries="@color/colorAccent"
         app:layout_constraintBottom_toTopOf="@+id/days_scroll_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.046"
+        app:layout_constraintHorizontal_bias="0.127"
         app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

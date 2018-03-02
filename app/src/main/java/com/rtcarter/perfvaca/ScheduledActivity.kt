@@ -1,8 +1,9 @@
 package com.rtcarter.perfvaca
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.Typeface
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -18,9 +19,11 @@ import android.view.ViewGroup
 import android.widget.*
 import java.text.SimpleDateFormat
 import android.widget.AdapterView
-import android.widget.AdapterView.OnItemSelectedListener
-import com.rtcarter.perfvaca.R.layout.activity_scheduled
-import java.lang.ref.WeakReference
+import android.widget.TextView
+
+
+
+
 
 
 class ScheduledActivity : AppCompatActivity() {
@@ -31,6 +34,9 @@ class ScheduledActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scheduled)
+
+        // ********************************** FONT NOT WORKING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+       // val eczar = Typeface.createFromAsset(applicationContext.getAssets(), "eczar.ttf")
 
         var gson = Gson()
 
@@ -72,6 +78,8 @@ class ScheduledActivity : AppCompatActivity() {
                         for (x in i.dates) {
                             val button = RadioButton(this@ScheduledActivity)
                             button.setText(sdf.format(x))
+                           // button.setTypeface(eczar)
+                            button.setTextColor(Color.parseColor("#000000"))
                             button.setId(count)
                             radiogroup.addView(button)
                             count++
@@ -83,6 +91,8 @@ class ScheduledActivity : AppCompatActivity() {
                             for (x in i.dates) {
                                 val button = RadioButton(this@ScheduledActivity)
                                 button.setText(sdf.format(x))
+                               // button.setTypeface(eczar)
+                                button.setTextColor(Color.parseColor("#000000"))
                                 button.setId(count)
                                 radiogroup.addView(button)
                                 count++
@@ -97,7 +107,7 @@ class ScheduledActivity : AppCompatActivity() {
         }
 
         // Switch to MainActivity
-        rightBtn.setOnClickListener {
+        schedBtn.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
