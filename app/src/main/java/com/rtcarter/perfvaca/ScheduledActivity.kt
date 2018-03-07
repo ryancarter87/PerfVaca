@@ -1,6 +1,8 @@
 package com.rtcarter.perfvaca
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
@@ -11,19 +13,15 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.util.*
 import kotlinx.android.synthetic.main.activity_scheduled.*
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStreamReader
-import java.io.OutputStreamWriter
 import android.view.ViewGroup
 import android.widget.*
 import java.text.SimpleDateFormat
 import android.widget.AdapterView
 import android.widget.TextView
-
-
-
-
+import android.content.DialogInterface
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.toast
+import java.io.*
 
 
 class ScheduledActivity : AppCompatActivity() {
@@ -44,10 +42,17 @@ class ScheduledActivity : AppCompatActivity() {
         val radiogroup = findViewById<View>(R.id.radioGroup) as ViewGroup
         // Variable to hold spinner from layout
         val spinner = findViewById<View>(R.id.spinnerView) as Spinner
+        // Variable to reference application context
+        var context: Context = applicationContext
+
+        // Create default object to store in peopleList, same as Main
+        var person = PeopleDates()
+        var peopleList: MutableList<PeopleDates> = mutableListOf(person)
 
         // Read the json file into peopleList. Same as MainActivity.
-
-        var peopleList: MutableList<PeopleDates> = gson.fromJson(read("people.json"), object : TypeToken<MutableList<PeopleDates>>() {}.type)
+        if(fileList().contains("people.json")) {
+            peopleList = gson.fromJson(read("people.json"), object : TypeToken<MutableList<PeopleDates>>() {}.type)
+        }
 
         // Create variable to hold all "name" values from peopleList objects
         var nameList: MutableList<String> = mutableListOf("All")
@@ -74,7 +79,6 @@ class ScheduledActivity : AppCompatActivity() {
                 var count = 0
                 if (spinItem.equals("All")) {
                     for (i in peopleList) {
-                        println(peopleList)
                         for (x in i.dates) {
                             val button = RadioButton(this@ScheduledActivity)
                             button.setText(sdf.format(x))
@@ -112,12 +116,23 @@ class ScheduledActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // Clear the file on click
-        // !!!!!!!!!!!!!!!!!!!!NEED TO ADD A CONFIRMATION BUTTON IN CASE THE USER ACCIDENTALLY PRESSES THIS!!!!!!!!!!!!!!!!!!!!!!!!
+        // Use AlertDialog to create a popup window to confirm the user's request, then if confirmed
+        // clear the json file with an empty object
         clearBtn.setOnClickListener {
-            write("people.json", "")
+            alert("This will permanently delete all scheduled dates. Continue?") {
+                title = "Confirm Clear All"
+                positiveButton("Yes") {
+                    delete("people.json")
+                    Toast.makeText(context, "ALL SCHEDULED DAYS REMOVED!", Toast.LENGTH_LONG).show()
 
-            Toast.makeText(this, "ALL SCHEDULED DAYS REMOVED!", Toast.LENGTH_LONG).show()
+                    /* Old Way without deleting file
+                    val json: String = gson.toJson("")
+                    write("people.json", json)
+                    Toast.makeText(context, "ALL SCHEDULED DAYS REMOVED!", Toast.LENGTH_LONG).show()
+                    */
+                    }
+                negativeButton("Cancel") { }
+            }.show()
         }
 
         /* ************************************** ADD REMOVE BUTTON FUNCTION!!!!!*******************************************************
@@ -186,5 +201,12 @@ class ScheduledActivity : AppCompatActivity() {
             file.close()
         } catch (e: IOException) {
         }
+    }
+
+    // Delete the file upon confirmation of the clear button
+    fun delete(txt: String) {
+        val dir: File = getFilesDir()
+        var file = File(dir, txt)
+        var deleted: Boolean = file.delete()
     }
 }

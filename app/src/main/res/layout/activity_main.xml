@@ -71,7 +71,6 @@
         style="@android:style/Widget.Material.Light.Button.Small"
         android:layout_width="46dp"
         android:layout_height="36dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/borders"
@@ -79,8 +78,6 @@
         android:text="View Dates"
         android:textColor="@android:color/background_light"
         android:textSize="8sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.09"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:targetApi="lollipop" />

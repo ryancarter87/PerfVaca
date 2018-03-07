@@ -40,9 +40,17 @@ class MainActivity : AppCompatActivity() {
         var person = PeopleDates()
         var peopleList: MutableList<PeopleDates> = mutableListOf(person)
 
+        // Check variable will equal true if people.json does not exist
+        // This means this is the first time the program has started, so a default value will
+        // be added to peopleList and needs to be removed after another date has been scheduled
+        val checkF: Boolean
+
         // If the json file exists then load its contents into peopleList
         if (fileList().contains("people.json")) {
             peopleList = (gson.fromJson(read("people.json"), object : TypeToken<MutableList<PeopleDates>>() {}.type))
+            checkF = false
+        } else {
+            checkF = true
         }
 
         // Initialize the calendar and add onclicklistener to display date picker to user
@@ -98,6 +106,14 @@ class MainActivity : AppCompatActivity() {
                 selected.dates = mutableListOf(chosenDate)
                 selected.name = nameIn
                 peopleList.add(selected)
+                Toast.makeText(this, "${dateText.text} scheduled as a vacation day for $nameIn", Toast.LENGTH_LONG).show()
+            }
+
+            // If checkF is true then this is the first time program has ever ran on device
+            // So, first value in peopleList will be the default placeholder value
+            // This value needs to be removed
+            if (checkF) {
+                peopleList.removeAt(0)
             }
 
             // write peopleList to the json file
