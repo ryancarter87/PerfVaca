@@ -4,14 +4,14 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.DatePicker
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.support.annotation.RequiresApi
 import android.view.View
-import android.widget.Toast
+import android.widget.*
 import java.text.SimpleDateFormat
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         var gson = Gson()
+        val spinner = findViewById<View>(R.id.spinnerView2) as Spinner
 
         // Initialize a PeopleDates() so that peopleList can be initialized
         // NEEED BETTER WAY TO DO THIS!!!!!!!!!!!!!!!!!!!!! LOOK INTO MAKING peopleList READ ONLY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -43,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         // Check variable will equal true if people.json does not exist
         // This means this is the first time the program has started, so a default value will
         // be added to peopleList and needs to be removed after another date has been scheduled
-        val checkF: Boolean
+        var checkF: Boolean
 
         // If the json file exists then load its contents into peopleList
         if (fileList().contains("people.json")) {
@@ -75,6 +76,34 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        // Create variable to hold all "name" values from peopleList objects
+        var nameList: MutableList<String> = mutableListOf(peopleList[0].name)
+        for (i in peopleList) {
+            nameList.add(i.name)
+        }
+
+        // Create a spinner to hold all "name"s from objects in peopleList. When user selects
+        // one, automatically fill in the nameText view with that name
+        val spin = ArrayAdapter(this, R.layout.spinner_item, nameList)
+        spin.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner!!.setAdapter(spin)
+
+        // Variable to check which spinner button was selected in order to determine radio buttons:
+        var spinItem = peopleList[0].name
+
+        // Spinner functions
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(arg0: AdapterView<*>, arg1: View, position: Int, id: Long) {
+                // Set spinItem to the selected spinner item, then set nameText to it
+                spinItem = nameList[position]
+
+                nameText.setText(spinItem)
+            }
+
+            override fun onNothingSelected(arg0: AdapterView<*>) {
+            }
+        }
+
         scheduleBtn.setOnClickListener {
             val nameIn = nameText.text.toString()
             // Create a boolean var to check if the name entered already exists in the data
@@ -101,6 +130,7 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, "Date already scheduled for $nameIn", Toast.LENGTH_LONG).show()
                 } else {
                     selected.dates.add(chosenDate)
+                    Toast.makeText(this, "${dateText.text} scheduled as a vacation day for $nameIn", Toast.LENGTH_LONG).show()
                 }
             } else {
                 selected.dates = mutableListOf(chosenDate)
@@ -111,9 +141,10 @@ class MainActivity : AppCompatActivity() {
 
             // If checkF is true then this is the first time program has ever ran on device
             // So, first value in peopleList will be the default placeholder value
-            // This value needs to be removed
+            // This value needs to be removed, then set checkF to false
             if (checkF) {
                 peopleList.removeAt(0)
+                checkF = false
             }
 
             // write peopleList to the json file

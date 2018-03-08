@@ -55,19 +55,19 @@ class ScheduledActivity : AppCompatActivity() {
         }
 
         // Create variable to hold all "name" values from peopleList objects
-        var nameList: MutableList<String> = mutableListOf("All")
+        var nameList: MutableList<String> = mutableListOf(peopleList[0].name)
         for (i in peopleList) {
             nameList.add(i.name)
         }
 
         // Create a spinner to hold all "name"s from objects in peopleList. When user selects
         // one, display all dates assigned to that name
-        val spin = ArrayAdapter(this, android.R.layout.simple_spinner_item, nameList)
+        val spin = ArrayAdapter(this, R.layout.spinner_item, nameList)
         spin.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner!!.setAdapter(spin)
 
         // Variable to check which spinner button was selected in order to determine radio buttons:
-        var spinItem = "All"
+        var spinItem = peopleList[0].name
 
         // Spinner functions
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -77,30 +77,16 @@ class ScheduledActivity : AppCompatActivity() {
                 spinItem = nameList[position]
                 radiogroup.removeAllViews()
                 var count = 0
-                if (spinItem.equals("All")) {
-                    for (i in peopleList) {
+
+                for (i in peopleList) {
+                    if (spinItem.equals(i.name)) {
                         for (x in i.dates) {
                             val button = RadioButton(this@ScheduledActivity)
+                            button.setTextColor(Color.WHITE)
                             button.setText(sdf.format(x))
-                           // button.setTypeface(eczar)
-                            button.setTextColor(Color.parseColor("#000000"))
                             button.setId(count)
                             radiogroup.addView(button)
                             count++
-                        }
-                    }
-                } else {
-                    for (i in peopleList) {
-                        if (spinItem.equals(i.name)) {
-                            for (x in i.dates) {
-                                val button = RadioButton(this@ScheduledActivity)
-                                button.setText(sdf.format(x))
-                               // button.setTypeface(eczar)
-                                button.setTextColor(Color.parseColor("#000000"))
-                                button.setId(count)
-                                radiogroup.addView(button)
-                                count++
-                            }
                         }
                     }
                 }
