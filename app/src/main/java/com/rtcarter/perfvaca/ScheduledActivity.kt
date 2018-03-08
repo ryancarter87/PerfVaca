@@ -54,6 +54,9 @@ class ScheduledActivity : AppCompatActivity() {
             peopleList = gson.fromJson(read("people.json"), object : TypeToken<MutableList<PeopleDates>>() {}.type)
         }
 
+        // Set days_scheduled textView to equal the number of dates assigned to the selected name
+        days_scheduled.text = (peopleList[0].dates.size.toString())
+
         // Create variable to hold all "name" values from peopleList objects
         var nameList: MutableList<String> = mutableListOf(peopleList[0].name)
         for (i in peopleList) {
@@ -80,6 +83,7 @@ class ScheduledActivity : AppCompatActivity() {
 
                 for (i in peopleList) {
                     if (spinItem.equals(i.name)) {
+                        days_scheduled.text = i.dates.size.toString()
                         for (x in i.dates) {
                             val button = RadioButton(this@ScheduledActivity)
                             button.setTextColor(Color.WHITE)

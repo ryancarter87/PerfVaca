@@ -7,11 +7,28 @@
     android:background="@color/colorPrimary"
     tools:context="com.rtcarter.perfvaca.ScheduledActivity">
 
+    <TextView
+        android:id="@+id/days_scheduled"
+        android:layout_width="93dp"
+        android:layout_height="23dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/eczar"
+        android:textColor="@android:color/background_light"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.187"
+        app:layout_constraintStart_toEndOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/removeBtn"
+        app:layout_constraintVertical_bias="0.0" />
+
     <Button
         android:id="@+id/schedBtn"
         style="@android:style/Widget.Material.Light.Button.Small"
-        android:layout_width="46dp"
-        android:layout_height="36dp"
+        android:layout_width="58dp"
+        android:layout_height="39dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
@@ -19,7 +36,7 @@
         android:fontFamily="@font/rubik_bold"
         android:text="SCHEDULE"
         android:textColor="@android:color/background_light"
-        android:textSize="8sp"
+        android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="@+id/mainBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.047"
@@ -33,10 +50,10 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="52dp"
-        android:fontFamily="sans-serif"
+        android:fontFamily="@font/eczar"
         android:text="VACATION DAYS SCHEDULED"
         android:textColor="@android:color/background_light"
-        android:textSize="26sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,15 +92,15 @@
     <Button
         android:id="@+id/mainBtn"
         style="@android:style/Widget.Material.Light.Button.Small"
-        android:layout_width="46dp"
-        android:layout_height="36dp"
+        android:layout_width="58dp"
+        android:layout_height="39dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/borders"
         android:fontFamily="@font/rubik_bold"
         android:text="VIEW DATES"
         android:textColor="@android:color/background_light"
-        android:textSize="8sp"
+        android:textSize="10sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -98,7 +115,7 @@
         android:id="@+id/clearBtn"
         android:layout_width="76dp"
         android:layout_height="30dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="4dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:background="@android:color/holo_red_dark"
@@ -107,7 +124,7 @@
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.939"
+        app:layout_constraintHorizontal_bias="0.941"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -137,5 +154,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.127"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/eczar"
+        android:text="Total number of vacation days scheduled:"
+        android:textColor="@android:color/background_light"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/removeBtn"
+        app:layout_constraintTop_toBottomOf="@+id/removeBtn"
+        app:layout_constraintVertical_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>
