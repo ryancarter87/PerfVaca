@@ -141,37 +141,6 @@ class ScheduledActivity : AppCompatActivity() {
                 }
             }
         }
-
-        /* ************************************** ADD REMOVE BUTTON FUNCTION!!!!!*******************************************************
-        removeBtn.setOnClickListener {
-            val selectedId = days_radio_group.getCheckedRadioButtonId()
-            val selectedRadioButton = findViewById<RadioButton>(selectedId)
-            if (schedMut.contains(schedMut[selectedRadioButton.id])) {
-                // Remove the element at the specified location and remove the radio buttons
-                schedMut.removeAt(selectedRadioButton.id)
-                radiogroup.removeAllViews()
-                // Recreate radio buttons with new size
-                for (i in 0..(schedMut.size-1)) {
-                    val button = RadioButton(this)
-                    button.setId(i)
-                    button.setText(schedMut[i])
-                    radiogroup.addView(button)
-                }
-
-                // Iterate through schedMut and copy the values to schedString so they can be written
-                // to file
-                schedString = ""
-                for (i in schedMut) {
-                    schedString += i + "\n"
-                }
-
-                // IF WRITE FUNCTION DOESN'T WORK, PASTE CODE BLOCK HERE
-                write("days.txt", schedString)
-            } else {
-                Toast.makeText(this, "Error: Couldn't find date in list.", Toast.LENGTH_LONG).show()
-            }
-        }
-        */
     }
 
     // Read from json file

@@ -7,7 +7,6 @@ import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import android.content.Intent
-import android.graphics.Color
 import android.os.Build
 import android.support.annotation.RequiresApi
 import android.view.View
@@ -46,12 +45,14 @@ class MainActivity : AppCompatActivity() {
         // be added to peopleList and needs to be removed after another date has been scheduled
         var checkF: Boolean
 
-        // If the json file exists then load its contents into peopleList
+        // If the json file exists then load its contents into peopleList, set View Dates button to visible
         if (fileList().contains("people.json")) {
             peopleList = (gson.fromJson(read("people.json"), object : TypeToken<MutableList<PeopleDates>>() {}.type))
             checkF = false
+            schedBtn.setVisibility(View.VISIBLE)
         } else {
             checkF = true
+            schedBtn.setVisibility(View.INVISIBLE)
         }
 
         // Initialize the calendar and add onclicklistener to display date picker to user
@@ -86,7 +87,7 @@ class MainActivity : AppCompatActivity() {
         // one, automatically fill in the nameText view with that name
         val spin = ArrayAdapter(this, R.layout.spinner_item, nameList)
         spin.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner!!.setAdapter(spin)
+        spinner.setAdapter(spin)
 
         // Variable to check which spinner button was selected in order to determine radio buttons:
         var spinItem = peopleList[0].name
@@ -103,6 +104,7 @@ class MainActivity : AppCompatActivity() {
             override fun onNothingSelected(arg0: AdapterView<*>) {
             }
         }
+
 
         scheduleBtn.setOnClickListener {
             val nameIn = nameText.text.toString()
@@ -145,6 +147,12 @@ class MainActivity : AppCompatActivity() {
             if (checkF) {
                 peopleList.removeAt(0)
                 checkF = false
+                schedBtn.setVisibility(View.VISIBLE)
+            }
+
+            // Sort the list of dates in descending order
+            for (i in peopleList) {
+                i.dates.sort()
             }
 
             // write peopleList to the json file

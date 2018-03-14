@@ -12,9 +12,9 @@
         android:layout_width="93dp"
         android:layout_height="23dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="2dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
-        android:fontFamily="@font/eczar"
+        android:fontFamily="sans-serif"
         android:textColor="@android:color/background_light"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView4"
@@ -29,20 +29,19 @@
         style="@android:style/Widget.Material.Light.Button.Small"
         android:layout_width="58dp"
         android:layout_height="39dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="308dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
         android:background="@drawable/borders"
         android:fontFamily="@font/rubik_bold"
         android:text="SCHEDULE"
         android:textColor="@android:color/background_light"
         android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="@+id/mainBtn"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.047"
-        app:layout_constraintStart_toEndOf="@+id/mainBtn"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView2"
@@ -89,21 +88,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
-        android:id="@+id/mainBtn"
-        style="@android:style/Widget.Material.Light.Button.Small"
-        android:layout_width="58dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/borders"
-        android:fontFamily="@font/rubik_bold"
-        android:text="VIEW DATES"
-        android:textColor="@android:color/background_light"
-        android:textSize="10sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
@@ -119,6 +103,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:background="@android:color/holo_red_dark"
+        android:fontFamily="@font/work_sans"
         android:text="CLEAR SCHEDULE"
         android:textColor="@android:color/background_light"
         android:textSize="12sp"
