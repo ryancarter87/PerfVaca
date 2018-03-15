@@ -11,7 +11,6 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/eczar"
@@ -19,8 +18,6 @@
         android:textColor="@android:color/background_light"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/spinnerView2"
-        app:layout_constraintEnd_toStartOf="@+id/spinnerView2"
-        app:layout_constraintHorizontal_bias="0.844"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
@@ -114,7 +111,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/eczar"
-        android:text="Simple Vacation is easy to use. Just enter the name of the person you are scheduling vacation for, then select CHOOSE DATE, and then finally press SCHEDULE SELECTED DATE !"
+        android:text="PerfVaca is easy to use. Just enter the name of the person you are scheduling vacation for, then select CHOOSE DATE, and then finally press SCHEDULE SELECTED DATE "
         android:textAlignment="center"
         android:textColor="@android:color/background_light"
         android:textSize="18sp"
@@ -128,22 +125,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginStart="84dp"
+        android:layout_marginStart="44dp"
         android:layout_marginTop="24dp"
         android:fontFamily="@font/eczar"
         android:text="Enter a new name:"
         android:textColor="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf="@+id/nameText"
+        app:layout_constraintEnd_toStartOf="@+id/spinnerView2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
     <EditText
         android:id="@+id/nameText"
-        android:layout_width="144dp"
+        android:layout_width="196dp"
         android:layout_height="45dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="224dp"
         android:ems="10"
         android:fontFamily="@font/work_sans"
@@ -152,8 +149,7 @@
         android:textColor="@color/colorPrimaryDark"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.132"
-        app:layout_constraintStart_toEndOf="@+id/textView5"
+        app:layout_constraintStart_toStartOf="@+id/spinnerView2"
         app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

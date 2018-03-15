@@ -33,8 +33,6 @@ class ScheduledActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scheduled)
 
-        // ********************************** FONT NOT WORKING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-       // val eczar = Typeface.createFromAsset(applicationContext.getAssets(), "eczar.ttf")
 
         var gson = Gson()
 
