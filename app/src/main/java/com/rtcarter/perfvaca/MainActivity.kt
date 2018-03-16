@@ -14,6 +14,7 @@ import android.widget.*
 import java.text.SimpleDateFormat
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import org.jetbrains.anko.alert
 import java.io.*
 
 
@@ -44,6 +45,12 @@ class MainActivity : AppCompatActivity() {
         // This means this is the first time the program has started, so a default value will
         // be added to peopleList and needs to be removed after another date has been scheduled
         var checkF: Boolean
+
+        // checkDate will equal true if the selected date has already been scheduled for a different name
+        var checkDate = false
+        var takenName = ""
+
+        var checkCont = true
 
         // If the json file exists then load its contents into peopleList, set View Dates button to visible
         if (fileList().contains("people.json")) {
@@ -127,19 +134,43 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            if (check) {
-                if (selected.dates.contains(chosenDate)) {
-                    Toast.makeText(this, "Date already scheduled for $nameIn", Toast.LENGTH_LONG).show()
+            // Iterate through all dates scheduled to see if that date has already been assigned to a name
+            // If it has, prompt the user to see if they still want to schedule that date
+            for (i in peopleList) {
+                if (i.dates.contains(chosenDate)) {
+                    checkDate = true
+                    takenName = i.name
+                    break
+                }
+            }
+
+            if (checkDate) {
+                alert("$chosenDate is already scheduled for $takenName, schedule anyways?") {
+                    title = "Date already scheduled"
+                    positiveButton("Yes") {
+                    }
+                    negativeButton("Cancel") {
+                        checkCont = false
+                    }
+                }.show()
+            }
+
+            if (checkCont) {
+                if (check) {
+                    if (selected.dates.contains(chosenDate)) {
+                        Toast.makeText(this, "Date already scheduled for $nameIn", Toast.LENGTH_LONG).show()
+                    } else {
+                        selected.dates.add(chosenDate)
+                        Toast.makeText(this, "${dateText.text} scheduled as a vacation day for $nameIn", Toast.LENGTH_LONG).show()
+                    }
                 } else {
-                    selected.dates.add(chosenDate)
+                    selected.dates = mutableListOf(chosenDate)
+                    selected.name = nameIn
+                    peopleList.add(selected)
                     Toast.makeText(this, "${dateText.text} scheduled as a vacation day for $nameIn", Toast.LENGTH_LONG).show()
                 }
-            } else {
-                selected.dates = mutableListOf(chosenDate)
-                selected.name = nameIn
-                peopleList.add(selected)
-                Toast.makeText(this, "${dateText.text} scheduled as a vacation day for $nameIn", Toast.LENGTH_LONG).show()
             }
+
 
             // If checkF is true then this is the first time program has ever ran on device
             // So, first value in peopleList will be the default placeholder value
