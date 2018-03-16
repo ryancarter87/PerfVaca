@@ -49,6 +49,8 @@ class MainActivity : AppCompatActivity() {
         // checkDate will equal true if the selected date has already been scheduled for a different name
         var checkDate = false
         var takenName = ""
+        // Set dateText textview to today's date
+        updateDateInView()
 
 
         // If the json file exists then load its contents into peopleList, set View Dates button to visible
