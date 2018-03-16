@@ -119,24 +119,31 @@ class ScheduledActivity : AppCompatActivity() {
 
         // Remove button functions
         removeBtn.setOnClickListener {
-            val selectedId = radioGroup.getCheckedRadioButtonId()
-            val selectedRadioButton = findViewById<RadioButton>(selectedId)
-            val selectedName = spinItem
-            val selectedText: String = selectedRadioButton.text.toString()
-            val selectedDate = sdf.parse(selectedText)
+            // If no radio buttons are checked, then do nothing. If one is checked though, remove that
+            // date from the object
+            if (radioGroup.getCheckedRadioButtonId() == -1) {
+                Toast.makeText(context, "No date selected.", Toast.LENGTH_SHORT).show()
+            } else {
+                val selectedId = radioGroup.getCheckedRadioButtonId()
+                val selectedRadioButton = findViewById<RadioButton>(selectedId)
+                val selectedName = spinItem
+                val selectedText: String = selectedRadioButton.text.toString()
+                val selectedDate = sdf.parse(selectedText)
 
-            // On click of Remove, if the list of PeopleDates contains an object with the name
-            // selected on the spinner, and that object contains the date displayed by the radio
-            // button selected, remove that date from the object and write the edited list to file
-            for (i in peopleList) {
-                if (i.name == selectedName && i.dates.contains(selectedDate)) {
-                    i.dates.remove(selectedDate)
-                    radioGroup.removeView(selectedRadioButton)
-                    Toast.makeText(this, "Date removed from list.", Toast.LENGTH_LONG).show()
+                // On click of Remove, if the list of PeopleDates contains an object with the name
+                // selected on the spinner, and that object contains the date displayed by the radio
+                // button selected, remove that date from the object and write the edited list to file
+                for (i in peopleList) {
+                    if (i.name == selectedName && i.dates.contains(selectedDate)) {
+                        i.dates.remove(selectedDate)
+                        radioGroup.removeView(selectedRadioButton)
+                        Toast.makeText(this, "Date removed from list.", Toast.LENGTH_LONG).show()
 
-                    val json: String = gson.toJson(peopleList)
-                    write("people.json", json)
+                        val json: String = gson.toJson(peopleList)
+                        write("people.json", json)
+                    }
                 }
+
             }
         }
     }

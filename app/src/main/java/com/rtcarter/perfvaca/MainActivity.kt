@@ -50,7 +50,6 @@ class MainActivity : AppCompatActivity() {
         var checkDate = false
         var takenName = ""
 
-        var checkCont = true
 
         // If the json file exists then load its contents into peopleList, set View Dates button to visible
         if (fileList().contains("people.json")) {
@@ -145,17 +144,36 @@ class MainActivity : AppCompatActivity() {
             }
 
             if (checkDate) {
-                alert("$chosenDate is already scheduled for $takenName, schedule anyways?") {
+                alert("That date is already scheduled for $takenName, schedule anyways?") {
                     title = "Date already scheduled"
                     positiveButton("Yes") {
+                        if (check) {
+                            if (selected.dates.contains(chosenDate)) {
+                                Toast.makeText(applicationContext, "Date already scheduled for $nameIn", Toast.LENGTH_LONG).show()
+                            } else {
+                                selected.dates.add(chosenDate)
+                                Toast.makeText(applicationContext, "${dateText.text} scheduled as a vacation day for $nameIn", Toast.LENGTH_LONG).show()
+                            }
+                        } else {
+                            selected.dates = mutableListOf(chosenDate)
+                            selected.name = nameIn
+                            peopleList.add(selected)
+                            Toast.makeText(applicationContext, "${dateText.text} scheduled as a vacation day for $nameIn", Toast.LENGTH_LONG).show()
+                        }
+
+                        // Sort the list of dates in descending order
+                        for (i in peopleList) {
+                            i.dates.sort()
+                        }
+
+                        // write peopleList to the json file
+                        var json: String = gson.toJson(peopleList)
+                        write("people.json", json)
                     }
                     negativeButton("Cancel") {
-                        checkCont = false
                     }
                 }.show()
-            }
-
-            if (checkCont) {
+            } else {
                 if (check) {
                     if (selected.dates.contains(chosenDate)) {
                         Toast.makeText(this, "Date already scheduled for $nameIn", Toast.LENGTH_LONG).show()
@@ -170,7 +188,6 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, "${dateText.text} scheduled as a vacation day for $nameIn", Toast.LENGTH_LONG).show()
                 }
             }
-
 
             // If checkF is true then this is the first time program has ever ran on device
             // So, first value in peopleList will be the default placeholder value
