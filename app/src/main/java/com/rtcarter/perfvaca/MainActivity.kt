@@ -83,33 +83,36 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        // Create variable to hold all "name" values from peopleList objects
-        var nameList: MutableList<String> = mutableListOf(peopleList[0].name)
-        for (i in peopleList) {
-            nameList.add(i.name)
-        }
-
-        // Create a spinner to hold all "name"s from objects in peopleList. When user selects
-        // one, automatically fill in the nameText view with that name
-        val spin = ArrayAdapter(this, R.layout.spinner_item, nameList)
-        spin.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.setAdapter(spin)
-
-        // Variable to check which spinner button was selected in order to determine radio buttons:
-        var spinItem = peopleList[0].name
-
-        // Spinner functions
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(arg0: AdapterView<*>, arg1: View, position: Int, id: Long) {
-                // Set spinItem to the selected spinner item, then set nameText to it
-                spinItem = nameList[position]
-
-                nameText.setText(spinItem)
+        if (!checkF) {
+            // Create variable to hold all "name" values from peopleList objects
+            var nameList: MutableList<String> = mutableListOf(peopleList[0].name)
+            for (i in peopleList) {
+                nameList.add(i.name)
             }
 
-            override fun onNothingSelected(arg0: AdapterView<*>) {
+            // Create a spinner to hold all "name"s from objects in peopleList. When user selects
+            // one, automatically fill in the nameText view with that name
+            val spin = ArrayAdapter(this, R.layout.spinner_item, nameList)
+            spin.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.setAdapter(spin)
+
+            // Variable to check which spinner button was selected in order to determine radio buttons:
+            var spinItem = peopleList[0].name
+
+            // Spinner functions
+            spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(arg0: AdapterView<*>, arg1: View, position: Int, id: Long) {
+                    // Set spinItem to the selected spinner item, then set nameText to it
+                    spinItem = nameList[position]
+
+                    nameText.setText(spinItem)
+                }
+
+                override fun onNothingSelected(arg0: AdapterView<*>) {
+                }
             }
         }
+
 
 
         scheduleBtn.setOnClickListener {
